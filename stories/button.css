@@ -9,7 +9,8 @@
 }
 .storybook-button--primary {
   color: white;
-  background-color: #1ea7fd;
+  /* fix: Elements must meet minimum color contrast ratio thresholds */
+  background-color: #025D92;
 }
 .storybook-button--secondary {
   color: #333;
