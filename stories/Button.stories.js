@@ -48,6 +48,9 @@ export const Secondary = {
     label: 'Secondary',
   },
 };
+Secondary.parameters = {
+  a11y: getExpectedScreenText(Secondary.args)
+}
 
 export const Large = {
   tags: ['a11y'],
@@ -56,6 +59,9 @@ export const Large = {
     label: 'Large',
   },
 };
+Large.parameters = {
+  a11y: getExpectedScreenText(Large.args)
+}
 
 export const Small = {
   tags: ['a11y'],
@@ -64,3 +70,6 @@ export const Small = {
     label: 'Small',
   },
 };
+Small.parameters = {
+  a11y: getExpectedScreenText(Small.args)
+}
