@@ -33,6 +33,7 @@ const navigateToWebContent = async (vo, applicationName) => {
   // );
   await page.locator("#test-jumplink").waitFor();
   await page.locator("#test-jumplink").focus();
+  await vo.perform(vo.commanderCommands.MOVE_KEYBOARD_FOCUS_TO_VOICEOVER_CURSOR)
 
   // Clear out logs.
   await vo.clearItemTextLog();
