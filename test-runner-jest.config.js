@@ -7,7 +7,7 @@ const jestConfig = getJestConfig()
  * @type {import('@jest/types').Config.InitialOptions}
  */
 export default {
-  ...jestConfig(),
+  ...jestConfig,
   testTimeout: 40000, // default timeout is 15s
   testEnvironmentOptions: {
     'jest-playwright': {
