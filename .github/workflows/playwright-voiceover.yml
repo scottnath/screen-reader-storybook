@@ -22,10 +22,10 @@ jobs:
         uses: guidepup/setup-action@0.15.3
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Playwright
-        run: npx playwright install webkit
       - name: Build Storybook
         run: npm run build-storybook
+      - name: Install Playwright
+        run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         run: |
           npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
