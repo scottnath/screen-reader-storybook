@@ -79,12 +79,18 @@ const config = {
     const itemTextLog = await voiceOver.itemTextLog();
     console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
     itemTextLog.pop()
-    const spokenPhraseLog = await voiceOver.spokenPhraseLog();
+    let spokenPhraseLog = await voiceOver.spokenPhraseLog();
     spokenPhraseLog.pop();
+    spokenPhraseLog = spokenPhraseLog.filter((phrase) => phrase !== '');
     console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
-    expect(spokenPhraseLog).toEqual(ctx.parameters.a11y);
+    // expect(spokenPhraseLog).toEqual(expectedScreenText);
+    // Compare spoken phrases to expected
+    expect(spokenPhraseLog.length).toEqual(expectedScreenText.length);
+    for (let i = 0; i < spokenPhraseLog.length; i++) {
+      expect(spokenPhraseLog[i]).toEqual(expectedScreenText[i]);
+    }
   },
 };
 

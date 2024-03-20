@@ -36,16 +36,35 @@ export const getExpectedScreenText = (args) => {
 }
 
 /**
+ * Extract the expected screen reader spoken output for virtual screen reader
+ * @param {Object} args - a content object representing a GitHub repository
+ * @returns {string[]} - array of strings representing the expected screen reader output
+ */
+export const getExpectedScreenTextVirtual = (args) => {
+  // What we expect the screen reader to say
+  return [
+    'banner',
+    // it is an `<h1>`, so `level 1`
+    'heading, Acme, level 1',
+    'Welcome,',
+    // Using `args` here allows you to change args without breaking the test
+    args.user.name,
+    '!',
+    'button, Log out',
+    'end of banner'
+  ]
+}
+
+/**
  * Ensure the screen reader reads the correct content
  */
 export const ensureScreenRead = async (elements, args) => {
-  const buttonName = args.label ? args.label : 'Button';
   const expected = getExpectedScreenTextVirtual(args);
 
   let nextCount = 0;
   const MAX_NAVIGATION_LOOP = expected.length + 3;
   // Start virtual screen reader
-  await virtual.start({ container: elements.button });
+  await virtual.start({ container: elements.header });
   while (
     !(await virtual.lastSpokenPhrase()).includes(expected[expected.length - 1]) &&
     nextCount <= MAX_NAVIGATION_LOOP
@@ -54,6 +73,7 @@ export const ensureScreenRead = async (elements, args) => {
     await virtual.next();
   }
   const phraseLog = await virtual.spokenPhraseLog();
+  
   // Stop virtual screen reader
   await virtual.stop();
 

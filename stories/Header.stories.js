@@ -1,7 +1,7 @@
 import { fn } from '@storybook/test';
 
 import { createHeader } from './Header';
-import { getExpectedScreenText } from './Header.shared-spec.js';
+import { getElements, ensureScreenRead, getExpectedScreenText } from './Header.shared-spec.js'
 
 export default {
   title: 'Example/Header',
@@ -25,6 +25,10 @@ export const LoggedIn = {
     user: {
       name: 'Jane Doe',
     },
+  },
+  play: async ({ canvasElement, args }) => {
+    const elements = await getElements(canvasElement);
+    await ensureScreenRead(elements, args);
   },
 };
 LoggedIn.parameters = {
