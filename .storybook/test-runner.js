@@ -89,12 +89,7 @@ const config = {
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
     started = false;
-    // expect(spokenPhraseLog).toEqual(expectedScreenText);
-    // Compare spoken phrases to expected
-    expect(spokenPhraseLog.length).toEqual(expectedScreenText.length);
-    for (let i = 0; i < spokenPhraseLog.length; i++) {
-      expect(spokenPhraseLog[i]).toEqual(expectedScreenText[i]);
-    }
+    expect(itemTextLog).toEqual(expectedScreenText);
   },
 };
 
