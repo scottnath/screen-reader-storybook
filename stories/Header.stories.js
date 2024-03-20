@@ -1,5 +1,7 @@
 import { fn } from '@storybook/test';
+
 import { createHeader } from './Header';
+import { getExpectedScreenText } from './Header.shared-spec.js';
 
 export default {
   title: 'Example/Header',
@@ -14,15 +16,19 @@ export default {
     onLogin: fn(),
     onLogout: fn(),
     onCreateAccount: fn(),
-  },
+  }
 };
 
 export const LoggedIn = {
+  tags: ['a11y2'],
   args: {
     user: {
       name: 'Jane Doe',
     },
   },
 };
+LoggedIn.parameters = {
+  a11y: getExpectedScreenText(LoggedIn.args)
+}
 
 export const LoggedOut = {};

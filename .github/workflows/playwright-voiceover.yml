@@ -1,25 +1,31 @@
+name: Playwright VoiceOver
 
-name: 'UI Tests'
-
-on: push
+on:
+  push:
+    branches: [main, add-screen-reading]
+  pull_request:
+    branches: [main, add-screen-reading]
 
 jobs:
-  # Run interaction and accessibility tests
-  interaction-and-accessibility:
-    runs-on: ubuntu-latest
+  playwright-voiceover:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [macos-11, macos-12, macos-13, macos-14]
+        browser: [webkit]
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20.x'
+      - name: Guidepup Setup
+        uses: guidepup/setup-action@0.15.3
       - name: Install dependencies
         run: yarn install --frozen-lockfile
-      - name: Install Playwright
-        run: npx playwright install --with-deps
       - name: Build Storybook
         run: npm run build-storybook
       - name: Serve Storybook and run tests
         run: |
           npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
           "npx --yes http-server ./storybook-static --port 2001 --silent" \
-          "npx wait-on http://127.0.0.1:2001 && npx test-storybook --url http://127.0.0.1:2001 --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
+          "npx wait-on http://127.0.0.1:2001 && npx test-voiceover --url http://127.0.0.1:2001"

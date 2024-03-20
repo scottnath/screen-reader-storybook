@@ -1,4 +1,6 @@
-import { fn } from '@storybook/test';
+import { expect, fn } from '@storybook/test';
+
+import { getElements, ensureScreenRead, getExpectedScreenText } from './Button.shared-spec.js'
 import { createButton } from './Button';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories
@@ -26,28 +28,39 @@ export default {
 
 // More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
 export const Primary = {
+  tags: ['a11y'],
   args: {
     primary: true,
-    label: 'Button',
+    label: 'Primary',
+  },
+  play: async ({ canvasElement, args }) => {
+    const elements = await getElements(canvasElement);
+    await ensureScreenRead(elements, args);
   },
 };
+Primary.parameters = {
+  a11y: getExpectedScreenText(Primary.args)
+}
 
 export const Secondary = {
+  tags: ['a11y'],
   args: {
-    label: 'Button',
+    label: 'Secondary',
   },
 };
 
 export const Large = {
+  tags: ['a11y'],
   args: {
     size: 'large',
-    label: 'Button',
+    label: 'Large',
   },
 };
 
 export const Small = {
+  tags: ['a11y'],
   args: {
     size: 'small',
-    label: 'Button',
+    label: 'Small',
   },
 };
