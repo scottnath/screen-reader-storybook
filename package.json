@@ -11,7 +11,7 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": " HEADLESS=true test-storybook --verbose",
-    "test-voiceover": "READER=voiceover test-storybook --verbose --browsers webkit",
+    "test-voiceover": "READER=voiceover test-storybook --verbose --browsers webkit --maxWorkers=1",
     "test-nvda": "READER=nvda test-storybook --verbose",
     "test-coverage": "test-storybook --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
   },

@@ -3,6 +3,7 @@ import { getStoryContext, waitForPageReady } from '@storybook/test-runner';
 import { macOSActivate, voiceOver } from "@guidepup/guidepup";
 import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.js";
 
+let started = false;
 /**
  * Navigates to the jumplink injected via decorator in ./preview.js in the `wrapperDecorator`
  * This is inspired by the `voiceOverPlaywright.navigateToWebContent` function found in guidepup's 
@@ -13,8 +14,10 @@ import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.
  * @param {string} applicationName - current running app name
  */
 const navigateToWebContent = async (vo, applicationName) => {
-  // await voiceOver.start({ capture: 'initial' });
-  await voiceOver.start({ capture: 'initial' });
+  if (!started) {
+    await voiceOver.start({ capture: 'initial' });
+    started = true;
+  }
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
 
@@ -39,7 +42,7 @@ const navigateToWebContent = async (vo, applicationName) => {
 const config = {
   logLevel: 'warn',
   tags: {
-    include: ['a11y2'],
+    include: ['a11y'],
   },
   async preVisit(page) {
     const READER = process.env.READER;
@@ -85,6 +88,7 @@ const config = {
     console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
+    started = false;
     // expect(spokenPhraseLog).toEqual(expectedScreenText);
     // Compare spoken phrases to expected
     expect(spokenPhraseLog.length).toEqual(expectedScreenText.length);
