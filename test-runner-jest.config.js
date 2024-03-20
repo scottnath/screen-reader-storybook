@@ -15,7 +15,7 @@ export default {
       maxWorkers: 1,
       // browsers: ['chromium'],
       // browsers: ['firefox'],
-      browsers: ['webkit'],
+      // browsers: ['webkit'],
       // browsers: ['firefox', 'webkit', 'chromium']
       // connectOptions: {
       //   chromium: {
