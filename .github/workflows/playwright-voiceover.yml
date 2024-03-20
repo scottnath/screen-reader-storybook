@@ -31,4 +31,4 @@ jobs:
         run: |
           npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
           "npx --yes http-server ./storybook-static --port 2001 --silent" \
-          "npx wait-on http://127.0.0.1:2001 && READER=voiceover HEADLESS=false npx test-storybook --browsers webkit --url http://127.0.0.1:2001"
+          "npx wait-on http://127.0.0.1:2001 && READER=voiceover npx test-storybook --browsers webkit --url http://127.0.0.1:2001"

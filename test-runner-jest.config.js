@@ -2,7 +2,7 @@ import { chromium } from "@playwright/test";
 import { getJestConfig } from "@storybook/test-runner";
 
 const jestConfig = getJestConfig();
-const headless = process.env.HEADLESS || true;
+const headless = process.env.HEADLESS || false;
 
 /**
  * @type {import('@jest/types').Config.InitialOptions}
