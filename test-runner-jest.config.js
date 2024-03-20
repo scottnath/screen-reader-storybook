@@ -17,6 +17,7 @@ export default {
         headless,
       },
       maxWorkers: 1,
+      retries: 2,
       // browsers: ['chromium'],
       // browsers: ['firefox'],
       // browsers: ['webkit'],
