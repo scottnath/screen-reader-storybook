@@ -1,7 +1,8 @@
 import { chromium } from "@playwright/test";
 import { getJestConfig } from "@storybook/test-runner";
 
-const jestConfig = getJestConfig()
+const jestConfig = getJestConfig();
+const headless = process.env.HEADLESS || true;
 
 /**
  * @type {import('@jest/types').Config.InitialOptions}
@@ -13,7 +14,7 @@ export default {
     'jest-playwright': {
       ...jestConfig.testEnvironmentOptions["jest-playwright"],
       launchOptions: {
-        headless: false,
+        headless,
       },
       maxWorkers: 1,
       // browsers: ['chromium'],
