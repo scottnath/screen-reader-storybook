@@ -14,7 +14,7 @@ import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.
  */
 const navigateToWebContent = async (vo, applicationName) => {
   // await voiceOver.start({ capture: 'initial' });
-  await voiceOver.start({ capture: 'initial' });
+  await voiceOver.start({ capture: 'initial', retries: 2 });
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
 
