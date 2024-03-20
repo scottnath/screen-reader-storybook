@@ -84,12 +84,14 @@ const config = {
     itemTextLog.pop()
     let spokenPhraseLog = await voiceOver.spokenPhraseLog();
     spokenPhraseLog.pop();
-    spokenPhraseLog = spokenPhraseLog.filter((phrase) => phrase !== '');
+    spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
+      return phrase !== '' && !phrase.includes('main content link') ;
+    });
     console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
     started = false;
-    expect(itemTextLog).toEqual(expectedScreenText);
+    expect(spokenPhraseLog).toEqual(expectedScreenText);
   },
 };
 
