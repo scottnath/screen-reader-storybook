@@ -17,7 +17,6 @@ const navigateToWebContent = async (vo, applicationName) => {
   if (!started) {
     await voiceOver.start({ capture: 'initial' });
     started = true;
-    console.log('voiceOver started!!!!!!-------------------');
   }
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
@@ -35,6 +34,7 @@ const navigateToWebContent = async (vo, applicationName) => {
   await page.locator("#test-jumplink").waitFor();
   await page.locator("#test-jumplink").focus();
   await vo.perform(vo.commanderCommands.MOVE_KEYBOARD_FOCUS_TO_VOICEOVER_CURSOR)
+  await vo.perform(vo.commanderCommands.MOVE_MOUSE_POINTER_TO_VOICEOVER_CURSOR)
 
   // Clear out logs.
   await vo.clearItemTextLog();
