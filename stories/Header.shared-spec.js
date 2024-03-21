@@ -24,15 +24,21 @@ export const getElements = async (canvasElement) => {
  */
 export const getExpectedScreenText = (args) => {
   // What we expect the screen reader to say
-  return [
+  const expected = [
     'banner',
     // it is an `<h1>`, so `heading level 1`
     'Acme heading level 1',
-    // Using `args` here allows you to change args without breaking the test
-    `Welcome, ${args.user.name}!`,
-    'Log out button',
-    'banner'
   ];
+  if (args.user?.name) {
+    expected.push(`Welcome, ${args.user.name}!`);
+    expected.push('Log out button');
+  } else {
+    expected.push('Log in button');
+    expected.push('Sign up button');
+  }
+  expected.push('banner');
+  
+  return expected;
 }
 
 /**
@@ -41,18 +47,24 @@ export const getExpectedScreenText = (args) => {
  * @returns {string[]} - array of strings representing the expected screen reader output
  */
 export const getExpectedScreenTextVirtual = (args) => {
-  // What we expect the screen reader to say
-  return [
+  // What we expect the virtual screen reader to say
+  const expected = [
     'banner',
     // it is an `<h1>`, so `level 1`
     'heading, Acme, level 1',
-    'Welcome,',
-    // Using `args` here allows you to change args without breaking the test
-    args.user.name,
-    '!',
-    'button, Log out',
-    'end of banner'
-  ]
+  ];
+  if (args.user?.name) {
+    expected.push('Welcome,');
+    expected.push(args.user.name);
+    expected.push('!');
+    expected.push('button, Log out');
+  } else {
+    expected.push('button, Log in');
+    expected.push('button, Sign up');
+  }
+  expected.push('end of banner');
+  
+  return expected;
 }
 
 /**

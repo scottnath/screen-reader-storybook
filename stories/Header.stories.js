@@ -35,4 +35,14 @@ LoggedIn.parameters = {
   a11y: getExpectedScreenText(LoggedIn.args)
 }
 
-export const LoggedOut = {};
+export const LoggedOut = {
+  tags: ['a11y'],
+  args: {},
+  play: async ({ canvasElement, args }) => {
+    const elements = await getElements(canvasElement);
+    await ensureScreenRead(elements, args);
+  },
+};
+LoggedOut.parameters = {
+  a11y: getExpectedScreenText(LoggedOut.args)
+};
