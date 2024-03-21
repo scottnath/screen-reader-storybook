@@ -22,4 +22,4 @@ jobs:
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         run: |
-          yarn exec concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn exec serve ./storybook-static -l 6006" "yarn exec wait-on tcp:6006 && yarn test"
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx serve ./storybook-static -l 6006" "npx wait-on tcp:6006 && yarn test"
