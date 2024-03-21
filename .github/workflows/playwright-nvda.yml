@@ -27,9 +27,4 @@ jobs:
       - name: Install Playwright
         run: npx playwright install chromium
       - name: Serve Storybook and run tests
-        uses: Wandalen/wretry.action@master
-        with:
-          command: |
-            npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx --yes http-server ./storybook-static --port 2001 --silent" "npx wait-on http://127.0.0.1:2001 && set READER=nvda npx test-storybook --maxWorkers 1 --browsers chromium --url http://127.0.0.1:2001"
-          attempt_limit: 2
-          attempt_delay: 2000
+        run: npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx --yes http-server ./storybook-static --port 2001 --silent" "npx wait-on http://127.0.0.1:2001 && set READER=nvda npx test-storybook --maxWorkers 1 --browsers chromium --url http://127.0.0.1:2001"
