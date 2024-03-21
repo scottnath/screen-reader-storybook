@@ -31,7 +31,7 @@ export const getExpectedScreenText = (args) => {
     // Using `args` here allows you to change args without breaking the test
     `Welcome, ${args.user.name}!`,
     'Log out button',
-    'banner'
+    'end of banner'
   ];
 }
 
