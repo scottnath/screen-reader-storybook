@@ -3,6 +3,7 @@ import { getJestConfig } from "@storybook/test-runner";
 
 const jestConfig = getJestConfig();
 const headless = process.env.HEADLESS || false;
+console.log('HEADLESS', headless);
 
 /**
  * @type {import('@jest/types').Config.InitialOptions}
