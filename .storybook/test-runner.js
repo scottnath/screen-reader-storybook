@@ -44,7 +44,7 @@ const navigateToWebContent = async (vo, applicationName) => {
 const config = {
   logLevel: 'warn',
   tags: {
-    include: ['a11y2'],
+    include: ['a11y'],
   },
   async preVisit(page) {
     const READER = process.env.READER;

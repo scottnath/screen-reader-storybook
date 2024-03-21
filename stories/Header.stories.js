@@ -20,7 +20,7 @@ export default {
 };
 
 export const LoggedIn = {
-  tags: ['a11y2'],
+  tags: ['a11y'],
   args: {
     user: {
       name: 'Jane Doe',
