@@ -21,7 +21,9 @@ jobs:
       - name: Guidepup Setup
         uses: guidepup/setup-action@0.15.3
       - name: Install dependencies
-        run: yarn install --frozen-lockfile
+        run: |
+          yarn install --frozen-lockfile
+          yarn add concurrently wait-on serve
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
