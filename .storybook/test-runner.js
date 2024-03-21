@@ -1,9 +1,8 @@
 import { injectAxe, checkA11y } from "axe-playwright";
 import { getStoryContext, waitForPageReady } from '@storybook/test-runner';
-import { macOSActivate, voiceOver } from "@guidepup/guidepup";
+import { macOSActivate, voiceOver, nvda } from "@guidepup/guidepup";
 import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.js";
 
-let started = false;
 /**
  * Navigates to the jumplink injected via decorator in ./preview.js in the `wrapperDecorator`
  * This is inspired by the `voiceOverPlaywright.navigateToWebContent` function found in guidepup's 
@@ -14,10 +13,7 @@ let started = false;
  * @param {string} applicationName - current running app name
  */
 const navigateToWebContent = async (vo, applicationName) => {
-  if (!started) {
-    await voiceOver.start({ capture: 'initial' });
-    started = true;
-  }
+  await vo.start({ capture: 'initial' });
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
 
@@ -92,7 +88,6 @@ const config = {
     console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
-    started = false;
     expect(itemTextLog).toEqual(expectedScreenText);
   },
 };
