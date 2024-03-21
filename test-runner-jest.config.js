@@ -12,21 +12,12 @@ export default {
   testTimeout: 40000, // default timeout is 15s
   testEnvironmentOptions: {
     'jest-playwright': {
+      // this line allows `--browsers chromium` to work
       ...jestConfig.testEnvironmentOptions["jest-playwright"],
       launchOptions: {
         headless,
       },
       maxWorkers: 1,
-      retries: 2,
-      // browsers: ['chromium'],
-      // browsers: ['firefox'],
-      // browsers: ['webkit'],
-      // browsers: ['firefox', 'webkit', 'chromium']
-      // connectOptions: {
-      //   chromium: {
-      //     wsEndpoint: 'ws://127.0.0.1:3000',
-      //   },
-      // },
     },
   },
 };
