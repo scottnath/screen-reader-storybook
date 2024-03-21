@@ -1,0 +1,37 @@
+name: Playwright NVDA
+
+on:
+  push:
+    branches: [main, add-screen-reading]
+  pull_request:
+    branches: [main, add-screen-reading]
+
+jobs:
+  playwright-nvda:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [windows-2019, windows-2022]
+        browser: [chromium]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+      - name: Guidepup Setup
+        uses: guidepup/setup-action@0.15.3
+      - name: Install dependencies
+        run: yarn install --frozen-lockfile
+      - name: Build Storybook
+        run: npm run build-storybook
+      - name: Install Playwright
+        run: npx playwright install --with-deps
+      - name: Serve Storybook and run tests
+        uses: Wandalen/wretry.action@master
+        with:
+          command: |
+            npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+            "npx --yes http-server ./storybook-static --port 2001 --silent" \
+            "npx wait-on http://127.0.0.1:2001 && READER=nvda npx test-storybook --maxWorkers 1 --browsers chromium --url http://127.0.0.1:2001"
+          attempt_limit: 2
+          attempt_delay: 2000

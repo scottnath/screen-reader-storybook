@@ -1,6 +1,7 @@
 import { injectAxe, checkA11y } from "axe-playwright";
 import { getStoryContext, waitForPageReady } from '@storybook/test-runner';
 import { macOSActivate, voiceOver, nvda } from "@guidepup/guidepup";
+import { nvdaTest } from "@guidepup/playwright";
 import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.js";
 
 /**
@@ -12,21 +13,13 @@ import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.
  * @param {object} vo - instance of guidepup voiceOver
  * @param {string} applicationName - current running app name
  */
-const navigateToWebContent = async (vo, applicationName) => {
+const navigateToWebContent = async (vo, page, applicationName) => {
   await vo.start({ capture: 'initial' });
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
 
   // Ensure the document is ready and focused.
   await page.bringToFront();
-  // await page.locator("body").waitFor();
-  // await page.locator("body").focus();
-
-  // Navigate to the beginning of the web content.
-  // await voiceOverPlaywright.interact();
-  // await voiceOverPlaywright.perform(
-  //   voiceOverPlaywright.keyboardCommands.jumpToLeftEdge
-  // );
   await page.locator("#test-jumplink").waitFor();
   await page.locator("#test-jumplink").focus();
   await vo.perform(vo.commanderCommands.MOVE_KEYBOARD_FOCUS_TO_VOICEOVER_CURSOR)
@@ -35,6 +28,15 @@ const navigateToWebContent = async (vo, applicationName) => {
   // Clear out logs.
   await vo.clearItemTextLog();
   await vo.clearSpokenPhraseLog();
+}
+
+const navigateToWebContentNVDA = async (sreader, page, applicationName) => {
+  await sreader.start();
+  await page.bringToFront();
+  await page.locator("#test-jumplink").waitFor();
+  await page.locator("#test-jumplink").focus();
+  await sreader.clearItemTextLog();
+  await sreader.clearSpokenPhraseLog();
 }
 
 const config = {
@@ -64,7 +66,38 @@ const config = {
     console.log('story context', ctx);
     const expectedScreenText = ctx.parameters.a11y;
     await waitForPageReady(page);
-    await navigateToWebContent(voiceOver, applicationNameMap[applicationName]);
+    let screenReader = voiceOver;
+    if (READER === 'nvda') {
+      screenReader = nvda;
+      await navigateToWebContentNVDA(screenReader, page, applicationNameMap[applicationName]);
+      let nextCount = 0;
+      const MAX_NAVIGATION_LOOP = expectedScreenText.length + 3;
+
+      while (
+        !(await screenReader.lastSpokenPhrase()).includes('end of main content') &&
+        nextCount <= MAX_NAVIGATION_LOOP
+      ) {
+        nextCount++;
+        await screenReader.next();
+      }
+      // await voiceOver.perform(voiceOver.commanderCommands.READ_CONTENTS_OF_WINDOW)
+      console.log('AFTER the NEXT')
+      const itemTextLog = await screenReader.itemTextLog();
+      console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
+      itemTextLog.pop()
+      let spokenPhraseLog = await screenReader.spokenPhraseLog();
+      spokenPhraseLog.pop();
+      spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
+        return phrase !== '' && !phrase.includes('main content link') ;
+      });
+      console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
+      console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
+      await screenReader.stop();
+      expect(itemTextLog).toEqual(expectedScreenText);
+      return;
+    }
+    
+    await navigateToWebContent(voiceOver, page, applicationNameMap[applicationName]);
     let nextCount = 0;
     const MAX_NAVIGATION_LOOP = expectedScreenText.length + 3;
 
