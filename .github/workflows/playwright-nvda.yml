@@ -27,4 +27,5 @@ jobs:
       - name: Install Playwright
         run: npx playwright install chromium
       - name: Serve Storybook and run tests
-        run: npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx --yes http-server storybook-static --port 2001 --silent" "npx wait-on tcp:2001 && set READER=nvda npx test-storybook --maxWorkers 1 --browsers chromium --url http://127.0.0.1:2001"
+        run: |
+          yarn exec concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "yarn exec serve ./storybook-static -l 2001" "yarn exec wait-on tcp:2001  && set READER=nvda yarn exec test-storybook --maxWorkers 1 --browsers chromium --url http://127.0.0.1:2001"
