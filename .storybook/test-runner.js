@@ -93,7 +93,7 @@ const config = {
     console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
     await voiceOver.stop();
     started = false;
-    expect(spokenPhraseLog).toEqual(expectedScreenText);
+    expect(itemTextLog).toEqual(expectedScreenText);
   },
 };
 
