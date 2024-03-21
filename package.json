@@ -34,7 +34,8 @@
     "axe-playwright": "^2.0.1",
     "concurrently": "^8.2.2",
     "storybook": "^8.0.2",
-    "vite": "^5.1.6"
+    "vite": "^5.1.6",
+    "wrap-ansi": "^9.0.0"
   },
   "resolutions": {
     "@storybook/addon-a11y": "8.0.2",
