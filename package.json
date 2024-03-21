@@ -12,7 +12,6 @@
     "build-storybook": "storybook build",
     "test-storybook": " HEADLESS=true test-storybook --verbose",
     "test-voiceover": "READER=voiceover test-storybook --maxWorkers 1 --verbose --browsers webkit",
-    "test-nvda": "READER=nvda test-storybook --verbose",
     "test-coverage": "test-storybook --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
   },
   "devDependencies": {
@@ -32,10 +31,8 @@
     "@storybook/test": "^8.0.2",
     "@storybook/test-runner": "^0.17.0",
     "axe-playwright": "^2.0.1",
-    "concurrently": "^8.2.2",
     "storybook": "^8.0.2",
-    "vite": "^5.1.6",
-    "wrap-ansi": "7.0.0"
+    "vite": "^5.1.6"
   },
   "resolutions": {
     "@storybook/addon-a11y": "8.0.2",
@@ -119,7 +116,6 @@
     "sb": "8.0.2",
     "string-width": "4.1.0",
     "storybook": "8.0.2",
-    "jackspeak": "2.3.6",
-    "wrap-ansi": "7.0.0"
+    "jackspeak": "2.3.6"
   }
 }
