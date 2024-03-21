@@ -15,11 +15,11 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install --frozen-lockfile
-          yarn add wait-on serve -D
+          npm install concurrently wait-on serve -g
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx serve ./storybook-static -l 6006" "npx wait-on tcp:6006 && yarn test"
+          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx serve ./storybook-static -l 6006" "npx wait-on tcp:6006 && yarn test-storybook"
