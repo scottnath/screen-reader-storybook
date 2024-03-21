@@ -17,6 +17,7 @@ const navigateToWebContent = async (vo, applicationName) => {
   if (!started) {
     await voiceOver.start({ capture: 'initial' });
     started = true;
+    console.log('voiceOver started!!!!!!-------------------');
   }
   // Ensure application is brought to front and focused.
   await macOSActivate(applicationName);
