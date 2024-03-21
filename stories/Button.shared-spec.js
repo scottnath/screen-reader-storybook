@@ -14,17 +14,6 @@ export const getElements = async (canvasElement) => {
 }
 
 /**
- * Extract the expected screen reader spoken output for virtual screen reader
- * @param {Object} args - a content object representing a GitHub repository
- * @returns {string[]} - array of strings representing the expected screen reader output
- */
-export const getExpectedScreenTextVirtual = (args) => {
-  return [
-    `button, ${args.label}`
-  ];
-}
-
-/**
  * Extract the expected screen reader spoken output
  * @param {Object} args - a content object representing a GitHub repository
  * @returns {string[]} - array of strings representing the expected screen reader output
@@ -32,6 +21,17 @@ export const getExpectedScreenTextVirtual = (args) => {
 export const getExpectedScreenText = (args) => {
   return [
     `${args.label} button`
+  ];
+}
+
+/**
+ * Extract the expected screen reader spoken output for virtual screen reader
+ * @param {Object} args - a content object representing a GitHub repository
+ * @returns {string[]} - array of strings representing the expected screen reader output
+ */
+export const getExpectedScreenTextVirtual = (args) => {
+  return [
+    `button, ${args.label}`
   ];
 }
 
