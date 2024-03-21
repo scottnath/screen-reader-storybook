@@ -6,7 +6,7 @@ on: push
 jobs:
   # Run interaction and accessibility tests
   interaction-and-accessibility:
-    runs-on: windows-2022
+    runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -15,7 +15,7 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install --frozen-lockfile
-          yarn add concurrently wait-on serve
+          yarn add wait-on serve -D
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
