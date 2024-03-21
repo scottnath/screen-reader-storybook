@@ -15,11 +15,11 @@ jobs:
       - name: Install dependencies
         run: |
           yarn install --frozen-lockfile
-          npm install concurrently wait-on http-server -g
+          npm install concurrently wait-port http-server -g
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         run: |
-          npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx --yes http-server ./storybook-static --port 6006 --silent" "npx wait-on tcp:6006 && set HEADLESS=true npx test-storybook --verbose --url http://127.0.0.1:6006"
+          npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx --yes http-server ./storybook-static --port 6006 --silent" "npx wait-port http://127.0.0.1:6006 && set HEADLESS=true npx test-storybook --verbose --url http://127.0.0.1:6006"
