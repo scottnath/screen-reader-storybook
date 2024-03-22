@@ -24,4 +24,6 @@ jobs:
       - name: Serve Storybook and run tests
         env:
           TEMP: ${{ runner.temp }}
-        run: yarn test-storybook:ci
+        run: |
+          yarn global install wrap-ansi
+          yarn test-storybook:ci
