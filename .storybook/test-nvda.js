@@ -56,10 +56,11 @@ const focusBrowser = async ({
  * @param {string} applicationName - current running app name
  */
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
-  console.log('PAGE', page);
-  await windowsActivate('chromium.exe', applicationName);
+  
   await page.bringToFront();
-  await nvdaInstance.start();
+  await page.waitForSelector('#test-jumplink');
+  console.log('page.waitForSelector', 'AFTER navigateToWebContent');
+  await nvdaInstance.start({ capture: 'initial' });
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   console.log('AAA await nvdaInstance.lastSpokenPhrase()', await nvdaInstance.lastSpokenPhrase());
   // Make sure NVDA is not in focus mode.
