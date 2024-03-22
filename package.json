@@ -31,8 +31,11 @@
     "@storybook/test": "^8.0.2",
     "@storybook/test-runner": "^0.17.0",
     "axe-playwright": "^2.0.1",
+    "concurrently": "^8.2.2",
+    "serve": "^14.2.1",
     "storybook": "^8.0.2",
-    "vite": "^5.1.6"
+    "vite": "^5.1.6",
+    "wait-on": "^7.2.0"
   },
   "resolutions": {
     "@storybook/addon-a11y": "8.0.2",
