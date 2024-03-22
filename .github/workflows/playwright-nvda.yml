@@ -22,12 +22,19 @@ jobs:
         uses: guidepup/setup-action@0.15.3
       - name: Install dependencies
         run: |
+          corepack enable
+          yarn set version stable
+          yarn --version
           yarn install --frozen-lockfile
-          yarn add concurrently wait-on serve
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
         run: npx playwright install chromium
       - name: Serve Storybook and run tests
+        env:
+          TEMP: ${{ runner.temp }}
+          READER: nvda
         run: |
-          npx concurrently -k -s first -n "SB,TEST" -c "magenta,blue" "npx serve ./storybook-static -l 2001" "npx wait-on tcp:2001  && set READER=nvda npx test-storybook --maxWorkers 1 --browsers chromium --url http://localhost:2001"
+          npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
+          "npx --yes http-server ./storybook-static --port 2001 --silent" \
+          "npx wait-on http://127.0.0.1:2001 && npx test-storybook --maxWorkers 1 --browsers webkit --url http://127.0.0.1:2001"

@@ -28,11 +28,13 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
+        env:
+          READER: voiceover
         uses: Wandalen/wretry.action@master
         with:
           command: |
             npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
             "npx --yes http-server ./storybook-static --port 2001 --silent" \
-            "npx wait-on http://127.0.0.1:2001 && READER=voiceover npx test-storybook --maxWorkers 1 --browsers webkit --url http://127.0.0.1:2001"
+            "npx wait-on http://127.0.0.1:2001 && npx test-storybook --maxWorkers 1 --browsers webkit --url http://127.0.0.1:2001"
           attempt_limit: 2
           attempt_delay: 2000
