@@ -25,24 +25,24 @@ export const nvdaTest = async (page, appMapName, MAX_LOOP = 10) => {
   let nextCount = 0;
 
   while (
-    !(await screenReader.lastSpokenPhrase()).includes('end of main content') &&
+    !(await nvda.lastSpokenPhrase()).includes('end of main content') &&
     nextCount <= MAX_LOOP
   ) {
     nextCount++;
-    await screenReader.next();
+    await nvda.next();
   }
   // await voiceOver.perform(voiceOver.commanderCommands.READ_CONTENTS_OF_WINDOW)
   console.log('AFTER the NEXT')
-  const itemTextLog = await screenReader.itemTextLog();
+  const itemTextLog = await nvda.itemTextLog();
   console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
   itemTextLog.pop()
-  let spokenPhraseLog = await screenReader.spokenPhraseLog();
+  let spokenPhraseLog = await nvda.spokenPhraseLog();
   spokenPhraseLog.pop();
   spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
     return phrase !== '' && !phrase.includes('main content link') ;
   });
   console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
   console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
-  await screenReader.stop();
+  await nvda.stop();
   return itemTextLog;
 }
