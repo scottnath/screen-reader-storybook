@@ -120,6 +120,7 @@
     "sb": "8.0.2",
     "string-width": "4.1.0",
     "storybook": "8.0.2",
-    "jackspeak": "2.3.6"
+    "jackspeak": "2.3.6",
+    "wrap-ansi": "^7.0.0"
   }
 }
