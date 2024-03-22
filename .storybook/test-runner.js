@@ -1,57 +1,30 @@
 import { injectAxe, checkA11y } from "axe-playwright";
 import { getStoryContext, waitForPageReady } from '@storybook/test-runner';
-import { macOSActivate, voiceOver, nvda } from "@guidepup/guidepup";
-import { nvdaTest } from "@guidepup/playwright";
+
 import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.js";
 
+import { voiceOverReader } from "./test-voiceover";
+import { nvdaTest } from "./test-nvda";
+
+const tags = [];
+const READER = process.env.READER;
+READER && tags.push('a11y');
+
 /**
- * Navigates to the jumplink injected via decorator in ./preview.js in the `wrapperDecorator`
- * This is inspired by the `voiceOverPlaywright.navigateToWebContent` function found in guidepup's 
- *  Playwright library. @storybook/test-runner already has `describe.test` setup so it cannot use
- *  @guidepup/playwright directly 
- * @see https://github.com/guidepup/guidepup-playwright/blob/424e72768525d03720d104a72a62d9f96c0e9903/src/voiceOverTest.ts#L86
- * @param {object} vo - instance of guidepup voiceOver
- * @param {string} applicationName - current running app name
+ * Storybook test-runner configuration
+ * @see https://storybook.js.org/docs/writing-tests/test-runner#configure
  */
-const navigateToWebContent = async (vo, page, applicationName) => {
-  await vo.start({ capture: 'initial' });
-  // Ensure application is brought to front and focused.
-  await macOSActivate(applicationName);
-
-  // Ensure the document is ready and focused.
-  await page.bringToFront();
-  await page.locator("#test-jumplink").waitFor();
-  await page.locator("#test-jumplink").focus();
-  await vo.perform(vo.commanderCommands.MOVE_KEYBOARD_FOCUS_TO_VOICEOVER_CURSOR)
-  await vo.perform(vo.commanderCommands.MOVE_MOUSE_POINTER_TO_VOICEOVER_CURSOR)
-
-  // Clear out logs.
-  await vo.clearItemTextLog();
-  await vo.clearSpokenPhraseLog();
-}
-
-const navigateToWebContentNVDA = async (sreader, page, applicationName) => {
-  await sreader.start();
-  await page.bringToFront();
-  await page.locator("#test-jumplink").waitFor();
-  await page.locator("#test-jumplink").focus();
-  await sreader.clearItemTextLog();
-  await sreader.clearSpokenPhraseLog();
-}
-
 const config = {
   logLevel: 'warn',
   tags: {
-    include: ['a11y'],
+    include: tags,
   },
   async preVisit(page) {
-    const READER = process.env.READER;
     if (!READER) {
       await injectAxe(page);
     }
   },
   async postVisit(page, story) {
-    const READER = process.env.READER;
     if (!READER) {
       await checkA11y(page, "#storybook-root", {
         detailedReport: true,
@@ -60,67 +33,21 @@ const config = {
       return;
     }
     const applicationName = page.context().browser().browserType().name();
+    const appMapName = applicationNameMap[applicationName];
+    expect(appMapName).toBeDefined();
 
     console.log('page, story', story)
     const ctx = await getStoryContext(page, story);
     console.log('story context', ctx);
     const expectedScreenText = ctx.parameters.a11y;
     await waitForPageReady(page);
-    let screenReader = voiceOver;
+    let itemTextLog = [];
     if (READER === 'nvda') {
-      screenReader = nvda;
-      await navigateToWebContentNVDA(screenReader, page, applicationNameMap[applicationName]);
-      let nextCount = 0;
-      const MAX_NAVIGATION_LOOP = expectedScreenText.length + 3;
-
-      while (
-        !(await screenReader.lastSpokenPhrase()).includes('end of main content') &&
-        nextCount <= MAX_NAVIGATION_LOOP
-      ) {
-        nextCount++;
-        await screenReader.next();
-      }
-      // await voiceOver.perform(voiceOver.commanderCommands.READ_CONTENTS_OF_WINDOW)
-      console.log('AFTER the NEXT')
-      const itemTextLog = await screenReader.itemTextLog();
-      console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
-      itemTextLog.pop()
-      let spokenPhraseLog = await screenReader.spokenPhraseLog();
-      spokenPhraseLog.pop();
-      spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
-        return phrase !== '' && !phrase.includes('main content link') ;
-      });
-      console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
-      console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
-      await screenReader.stop();
-      expect(itemTextLog).toEqual(expectedScreenText);
-      return;
+      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3);
+    } else {
+      itemTextLog = await voiceOverReader(page, appMapName, expectedScreenText.length + 3);
     }
-    
-    await navigateToWebContent(voiceOver, page, applicationNameMap[applicationName]);
-    let nextCount = 0;
-    const MAX_NAVIGATION_LOOP = expectedScreenText.length + 3;
 
-    while (
-      !(await voiceOver.lastSpokenPhrase()).includes('end of main content') &&
-      nextCount <= MAX_NAVIGATION_LOOP
-    ) {
-      nextCount++;
-      await voiceOver.next();
-    }
-    // await voiceOver.perform(voiceOver.commanderCommands.READ_CONTENTS_OF_WINDOW)
-    console.log('AFTER the NEXT')
-    const itemTextLog = await voiceOver.itemTextLog();
-    console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
-    itemTextLog.pop()
-    let spokenPhraseLog = await voiceOver.spokenPhraseLog();
-    spokenPhraseLog.pop();
-    spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
-      return phrase !== '' && !phrase.includes('main content link') ;
-    });
-    console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
-    console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
-    await voiceOver.stop();
     expect(itemTextLog).toEqual(expectedScreenText);
   },
 };

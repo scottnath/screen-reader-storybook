@@ -10056,6 +10056,7 @@ __metadata:
     "@storybook/test-runner": "npm:^0.17.0"
     axe-playwright: "npm:^2.0.1"
     concurrently: "npm:^8.2.2"
+    nyc: "npm:^15.1.0"
     serve: "npm:^14.2.1"
     storybook: "npm:^8.0.2"
     vite: "npm:^5.1.6"

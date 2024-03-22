@@ -37,6 +37,7 @@
     "@storybook/test-runner": "^0.17.0",
     "axe-playwright": "^2.0.1",
     "concurrently": "^8.2.2",
+    "nyc": "^15.1.0",
     "serve": "^14.2.1",
     "storybook": "^8.0.2",
     "vite": "^5.1.6",
