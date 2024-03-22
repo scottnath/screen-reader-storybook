@@ -35,7 +35,7 @@ const config = {
       return;
     }
     const applicationName = page.context().browser().browserType().name();
-    console.log('postVisit', applicationName);
+    console.log('postVisit', applicationName, page.url());
     const appMapName = applicationNameMap[applicationName];
     expect(appMapName).toBeDefined();
 
