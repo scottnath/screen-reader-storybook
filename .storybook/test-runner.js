@@ -46,7 +46,7 @@ const config = {
     await waitForPageReady(page);
     let itemTextLog = [];
     if (READER === 'nvda') {
-      const pageurl = `http://127.0.0.1:6006/iframe.html?args=&id=${ctx.id}`;
+      const pageurl = `http://127.0.0.1:6006/iframe.html?args=&id=${ctx.id}&viewMode=story`;
       console.log('story pageurl', pageurl);
 
       itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3, pageurl);
