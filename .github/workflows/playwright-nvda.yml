@@ -30,9 +30,13 @@ jobs:
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
-        run: npx playwright install chromium
+        run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
         env:
-          TEMP: ${{ runner.temp }}
           READER: nvda
-        run: yarn test-nvda:ci
+          TEMP: ${{ runner.temp }}
+        uses: Wandalen/wretry.action@master
+        with:
+          command: yarn test-nvda:ci
+          attempt_limit: 2
+          attempt_delay: 2000

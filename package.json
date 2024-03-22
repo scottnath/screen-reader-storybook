@@ -13,7 +13,7 @@
     "test-storybook": " HEADLESS=true test-storybook --verbose",
     "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-storybook\"",
     "test-nvda:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-nvda\"",
-    "test-nvda": "set READER=nvda test-storybook --maxWorkers 1 --verbose --browsers chromium",
+    "test-nvda": "test-storybook --maxWorkers 1 --verbose --browsers chromium",
     "test-voiceover:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-voiceover\"",
     "test-voiceover": "READER=voiceover test-storybook --maxWorkers 1 --verbose --browsers webkit",
     "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-coverage\"",

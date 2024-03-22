@@ -21,11 +21,13 @@ const config = {
     include: tags,
   },
   async preVisit(page) {
+    console.log('preVisit');
     if (!READER) {
       await injectAxe(page);
     }
   },
   async postVisit(page, story) {
+    console.log('postVisit');
     if (!READER) {
       await checkA11y(page, "#storybook-root", {
         detailedReport: true,
