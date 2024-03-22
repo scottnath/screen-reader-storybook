@@ -1,4 +1,5 @@
 
+import { waitForPageReady } from '@storybook/test-runner';
 import { nvda, WindowsKeyCodes, WindowsModifiers, windowsActivate } from "@guidepup/guidepup";
 
 const MAX_APPLICATION_SWITCH_RETRY_COUNT = 10;
@@ -74,9 +75,10 @@ export const navigateToWebContent = async (nvdaInstance, page, applicationName) 
   await nvdaInstance.clearSpokenPhraseLog();
 }
 
-export const nvdaTest = async (page, appMapName, MAX_LOOP = 10, ctx) => {
+export const nvdaTest = async (page, appMapName, MAX_LOOP = 10, pageurl) => {
   console.log('nvdaTest');
-  await page.goto("http://localhost:6006/iframe.html?args=&id="+ctx.id, { waitUntil: "load" });
+  await page.goto(pageurl, { waitUntil: "load" });
+  await waitForPageReady(page);
   await page.bringToFront();
   await page.locator("body").waitFor();
   await page.locator("body").focus();

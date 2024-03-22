@@ -46,7 +46,10 @@ const config = {
     await waitForPageReady(page);
     let itemTextLog = [];
     if (READER === 'nvda') {
-      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3, ctx);
+      const pageurl = `http://127.0.0.1:6006/iframe.html?args=&id=${ctx.id}`;
+      console.log('story pageurl', pageurl);
+
+      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3, pageurl);
     } else {
       itemTextLog = await voiceOverReader(page, appMapName, expectedScreenText.length + 3);
     }
