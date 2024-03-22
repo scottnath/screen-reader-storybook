@@ -34,6 +34,7 @@ jobs:
       - name: Serve Storybook and run tests
         env:
           READER: nvda
+          HEADLESS: true
           TEMP: ${{ runner.temp }}
         uses: Wandalen/wretry.action@master
         with:
