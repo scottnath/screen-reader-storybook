@@ -56,8 +56,7 @@ const focusBrowser = async ({
  * @param {string} applicationName - current running app name
  */
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
-  
-  await page.bringToFront();
+
   await page.waitForSelector('#test-jumplink');
   console.log('page.waitForSelector', 'AFTER navigateToWebContent');
   await nvdaInstance.start({ capture: 'initial' });
@@ -74,9 +73,13 @@ export const navigateToWebContent = async (nvdaInstance, page, applicationName) 
   await nvdaInstance.clearItemTextLog();
   await nvdaInstance.clearSpokenPhraseLog();
 }
-
-export const nvdaTest = async (page, appMapName, MAX_LOOP = 10) => {
+http://localhost:6006/iframe.html?args=&id=example-header--logged-in
+export const nvdaTest = async (page, appMapName, MAX_LOOP = 10, ctx) => {
   console.log('nvdaTest');
+  await page.goto("http://localhost:6006/iframe.html?args=&id="+ctx.id, { waitUntil: "load" });
+  await page.bringToFront();
+  await page.locator("body").waitFor();
+  await page.locator("body").focus();
   await navigateToWebContent(nvda, page, appMapName);
   console.log('nvdaTest', 'AFTER navigateToWebContent');
   let nextCount = 0;

@@ -46,7 +46,7 @@ const config = {
     await waitForPageReady(page);
     let itemTextLog = [];
     if (READER === 'nvda') {
-      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3);
+      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3, ctx);
     } else {
       itemTextLog = await voiceOverReader(page, appMapName, expectedScreenText.length + 3);
     }
