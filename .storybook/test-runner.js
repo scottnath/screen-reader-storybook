@@ -8,6 +8,7 @@ import { nvdaTest } from "./test-nvda";
 
 const tags = [];
 const READER = process.env.READER;
+console.log('READER', READER);
 READER && tags.push('a11y');
 
 /**
