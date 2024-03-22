@@ -27,6 +27,13 @@ export const navigateToWebContent = async (vo, page, appMapName) => {
   await vo.clearSpokenPhraseLog();
 }
 
+/**
+ * Read the content of the component using VoiceOver
+ * @param {object} page - playwright page
+ * @param {string} appMapName - current running app name
+ * @param {number} MAX_LOOP - maximum number of .next() iterations
+ * @returns {string[]} - array of strings representing the spoken phrases
+ */
 export const voiceOverReader = async (page, appMapName, MAX_LOOP = 10) => {
   await navigateToWebContent(voiceOver, page, appMapName);
   let nextCount = 0;
