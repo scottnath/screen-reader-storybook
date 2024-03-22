@@ -17,9 +17,11 @@ const focusBrowser = async ({
   applicationName,
   nvdaInstance,
 }) => {
+  console.log('focusBrowser', applicationName);
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   let windowTitle = await nvdaInstance.lastSpokenPhrase();
 
+  console.log('focusBrowserwindowTitle', windowTitle);
   if (windowTitle.includes(applicationName)) {
     return;
   }
@@ -37,7 +39,10 @@ const focusBrowser = async ({
       break;
     }
   }
+  console.log('focusBrowserwindowTitle222', windowTitle);
 };
+
+
 
 /**
  * Navigates to the jumplink injected via decorator in ./preview.js in the `wrapperDecorator`
@@ -61,7 +66,9 @@ export const navigateToWebContent = async (nvdaInstance, page, applicationName) 
 }
 
 export const nvdaTest = async (page, appMapName, MAX_LOOP = 10) => {
+  console.log('nvdaTest');
   await navigateToWebContent(nvda, page, appMapName);
+  console.log('nvdaTest', 'AFTER navigateToWebContent');
   let nextCount = 0;
 
   while (
