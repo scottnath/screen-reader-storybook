@@ -53,7 +53,7 @@ export const navigateToWebContent = async (nvdaInstance, page, applicationName) 
   await nvdaInstance.start();
   await page.bringToFront();
   // Ensure application is brought to front and focused.
-  await focusBrowser({ applicationName });
+  await focusBrowser({ applicationName, nvdaInstance });
   await page.locator("#test-jumplink").waitFor();
   await page.locator("#test-jumplink").focus();
   await nvdaInstance.clearItemTextLog();
