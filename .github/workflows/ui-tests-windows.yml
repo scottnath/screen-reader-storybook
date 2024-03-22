@@ -26,4 +26,5 @@ jobs:
       - name: Serve Storybook and run tests
         env:
           TEMP: ${{ runner.temp }}
+          HEADLESS: true
         run: yarn test-coverage:ci

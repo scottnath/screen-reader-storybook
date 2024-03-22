@@ -23,4 +23,6 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
+        env:
+          HEADLESS: true
         run: yarn test-coverage:ci
