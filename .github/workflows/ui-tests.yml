@@ -23,4 +23,4 @@ jobs:
       - name: Install Playwright
         run: npx playwright install --with-deps
       - name: Serve Storybook and run tests
-        run: yarn test-storybook:ci
+        run: yarn test-coverage:ci

@@ -11,7 +11,11 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": " HEADLESS=true test-storybook --verbose",
-    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"yarn build-storybook --quiet && npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-storybook\"",
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-storybook\"",
+    "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-coverage\"",
+    "test-nvda:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-nvda\"",
+    "test-nvda": "set READER=nvda test-storybook --maxWorkers 1 --verbose --browsers chromium",
+    "test-voiceover:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-voiceover\"",
     "test-voiceover": "READER=voiceover test-storybook --maxWorkers 1 --verbose --browsers webkit",
     "test-coverage": "test-storybook --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
   },

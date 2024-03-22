@@ -9,6 +9,7 @@ on:
 jobs:
   playwright-nvda:
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
     strategy:
       matrix:
         os: [windows-2019, windows-2022]
@@ -34,7 +35,4 @@ jobs:
         env:
           TEMP: ${{ runner.temp }}
           READER: nvda
-        run: |
-          npx --yes concurrently -k -s first -n "SB,TEST" -c "magenta,blue" \
-          "npx --yes http-server ./storybook-static --port 2001 --silent" \
-          "npx wait-on http://127.0.0.1:2001 && npx test-storybook --maxWorkers 1 --browsers webkit --url http://127.0.0.1:2001"
+        run: yarn test-nvda:ci

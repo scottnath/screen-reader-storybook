@@ -18,7 +18,6 @@ jobs:
           yarn set version stable
           yarn --version
           yarn install --frozen-lockfile
-          npm install concurrently wait-port http-server -g
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
@@ -27,4 +26,4 @@ jobs:
       - name: Serve Storybook and run tests
         env:
           TEMP: ${{ runner.temp }}
-        run: yarn test-storybook:ci
+        run: yarn test-coverage:ci
