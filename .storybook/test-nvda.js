@@ -34,6 +34,7 @@ const focusBrowser = async ({
     await nvdaInstance.perform(SWITCH_APPLICATION);
     await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
     windowTitle = await nvdaInstance.lastSpokenPhrase();
+    console.log('WHILE windowTitle', windowTitle);
 
     if (windowTitle.includes(applicationName)) {
       break;
@@ -57,6 +58,10 @@ const focusBrowser = async ({
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
   await nvdaInstance.start();
   await page.bringToFront();
+  // Make sure NVDA is not in focus mode.
+  await nvdaInstance.perform(
+    nvdaInstance.keyboardCommands.exitFocusMode
+  );
   // Ensure application is brought to front and focused.
   await focusBrowser({ applicationName, nvdaInstance });
   await page.locator("#test-jumplink").waitFor();
