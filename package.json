@@ -122,6 +122,7 @@
     "storybook": "8.0.2",
     "jackspeak": "2.3.6",
     "cliui": "^8.0.0",
-    "wrap-ansi": "^7.0.0"
+    "wrap-ansi": "^7.0.0",
+    "yargs": "^17.0.1"
   }
 }
