@@ -57,8 +57,8 @@ const focusBrowser = async ({
  */
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
   await page.goto("about:blank", { waitUntil: "load" });
-  await page.bringToFront();
   await nvdaInstance.start();
+  await page.bringToFront();
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   console.log('AAA await nvdaInstance.lastSpokenPhrase()', await nvdaInstance.lastSpokenPhrase());
   // Make sure NVDA is not in focus mode.
