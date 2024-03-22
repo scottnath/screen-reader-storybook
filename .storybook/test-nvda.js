@@ -73,7 +73,7 @@ export const navigateToWebContent = async (nvdaInstance, page, applicationName) 
   await nvdaInstance.clearItemTextLog();
   await nvdaInstance.clearSpokenPhraseLog();
 }
-http://localhost:6006/iframe.html?args=&id=example-header--logged-in
+
 export const nvdaTest = async (page, appMapName, MAX_LOOP = 10, ctx) => {
   console.log('nvdaTest');
   await page.goto("http://localhost:6006/iframe.html?args=&id="+ctx.id, { waitUntil: "load" });
