@@ -1,5 +1,43 @@
 
-import { nvda } from "@guidepup/guidepup";
+import { nvda, WindowsKeyCodes, WindowsModifiers } from "@guidepup/guidepup";
+
+const MAX_APPLICATION_SWITCH_RETRY_COUNT = 10;
+
+const SWITCH_APPLICATION = {
+  keyCode: [WindowsKeyCodes.Escape],
+  modifiers: [WindowsModifiers.Alt],
+};
+
+const MOVE_TO_TOP = {
+  keyCode: [WindowsKeyCodes.Home],
+  modifiers: [WindowsModifiers.Control],
+};
+
+const focusBrowser = async ({
+  applicationName,
+  nvdaInstance,
+}) => {
+  await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
+  let windowTitle = await nvdaInstance.lastSpokenPhrase();
+
+  if (windowTitle.includes(applicationName)) {
+    return;
+  }
+
+  let applicationSwitchRetryCount = 0;
+
+  while (applicationSwitchRetryCount < MAX_APPLICATION_SWITCH_RETRY_COUNT) {
+    applicationSwitchRetryCount++;
+
+    await nvdaInstance.perform(SWITCH_APPLICATION);
+    await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
+    windowTitle = await nvdaInstance.lastSpokenPhrase();
+
+    if (windowTitle.includes(applicationName)) {
+      break;
+    }
+  }
+};
 
 /**
  * Navigates to the jumplink injected via decorator in ./preview.js in the `wrapperDecorator`
@@ -14,6 +52,8 @@ import { nvda } from "@guidepup/guidepup";
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
   await nvdaInstance.start();
   await page.bringToFront();
+  // Ensure application is brought to front and focused.
+  await focusBrowser({ applicationName });
   await page.locator("#test-jumplink").waitFor();
   await page.locator("#test-jumplink").focus();
   await nvdaInstance.clearItemTextLog();
