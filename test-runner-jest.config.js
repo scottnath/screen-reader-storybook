@@ -1,7 +1,6 @@
-import { chromium } from "@playwright/test";
 import { getJestConfig } from "@storybook/test-runner";
 
-const jestConfig = getJestConfig();
+const testRunnerConfig = getJestConfig();
 const headless = process.env.HEADLESS || false;
 console.log('HEADLESS', headless);
 
@@ -9,12 +8,12 @@ console.log('HEADLESS', headless);
  * @type {import('@jest/types').Config.InitialOptions}
  */
 export default {
-  ...jestConfig,
+  ...testRunnerConfig,
   testTimeout: 40000, // default timeout is 15s
   testEnvironmentOptions: {
     'jest-playwright': {
       // this line allows `--browsers chromium` to work
-      ...jestConfig.testEnvironmentOptions["jest-playwright"],
+      ...testRunnerConfig.testEnvironmentOptions["jest-playwright"],
       launchOptions: {
         headless,
       },

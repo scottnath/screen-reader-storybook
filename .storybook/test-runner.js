@@ -1,14 +1,11 @@
 import { injectAxe, checkA11y } from "axe-playwright";
 import { getStoryContext, waitForPageReady } from '@storybook/test-runner';
-
 import { applicationNameMap } from "@guidepup/playwright/lib/applicationNameMap.js";
 
 import { voiceOverReader } from "./test-voiceover";
-import { nvdaTest } from "./test-nvda";
 
 const tags = [];
 const READER = process.env.READER;
-console.log('READER', READER);
 READER && tags.push('a11y');
 
 /**
@@ -21,7 +18,6 @@ const config = {
     include: tags,
   },
   async preVisit(page) {
-    console.log('preVisit');
     if (!READER) {
       await injectAxe(page);
     }
@@ -35,24 +31,14 @@ const config = {
       return;
     }
     const applicationName = page.context().browser().browserType().name();
-    console.log('postVisit', applicationName, page.url());
     const appMapName = applicationNameMap[applicationName];
     expect(appMapName).toBeDefined();
 
-    console.log('page, story', story)
     const ctx = await getStoryContext(page, story);
-    console.log('story context', ctx);
     const expectedScreenText = ctx.parameters.a11y;
     await waitForPageReady(page);
     let itemTextLog = [];
-    if (READER === 'nvda') {
-      const pageurl = `http://127.0.0.1:6006/iframe.html?args=&id=${ctx.id}&viewMode=story`;
-      console.log('story pageurl', pageurl);
-
-      itemTextLog = await nvdaTest(page, appMapName, expectedScreenText.length + 3, pageurl);
-    } else {
-      itemTextLog = await voiceOverReader(page, appMapName, expectedScreenText.length + 3);
-    }
+    itemTextLog = await voiceOverReader(page, appMapName, expectedScreenText.length + 3);
 
     expect(itemTextLog).toEqual(expectedScreenText);
   },

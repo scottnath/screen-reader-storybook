@@ -38,18 +38,8 @@ export const voiceOverReader = async (page, appMapName, MAX_LOOP = 10) => {
     nextCount++;
     await voiceOver.next();
   }
-  // await voiceOver.perform(voiceOver.commanderCommands.READ_CONTENTS_OF_WINDOW)
-  console.log('AFTER the NEXT')
   const itemTextLog = await voiceOver.itemTextLog();
-  console.log('itemTextLogAAA', JSON.stringify(itemTextLog, undefined, 2));
-  itemTextLog.pop()
-  let spokenPhraseLog = await voiceOver.spokenPhraseLog();
-  spokenPhraseLog.pop();
-  spokenPhraseLog = spokenPhraseLog.filter((phrase) => {
-    return phrase !== '' && !phrase.includes('main content link') ;
-  });
-  console.log('itemTextLogBBB', JSON.stringify(itemTextLog, undefined, 2));
-  console.log('spokenPhraseLog', JSON.stringify(spokenPhraseLog, undefined, 2));
+  itemTextLog.pop();
   await voiceOver.stop();
   return itemTextLog;
 }
