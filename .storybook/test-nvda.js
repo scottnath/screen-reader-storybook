@@ -18,7 +18,6 @@ const focusBrowser = async ({
   nvdaInstance,
 }) => {
   console.log('focusBrowser', applicationName);
-  await windowsActivate('chromium.exe', applicationName);
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   let windowTitle = await nvdaInstance.lastSpokenPhrase();
 
@@ -57,7 +56,8 @@ const focusBrowser = async ({
  * @param {string} applicationName - current running app name
  */
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
-  await page.goto("about:blank", { waitUntil: "load" });
+  console.log('PAGE', page);
+  await windowsActivate('chromium.exe', applicationName);
   await page.bringToFront();
   await nvdaInstance.start();
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
