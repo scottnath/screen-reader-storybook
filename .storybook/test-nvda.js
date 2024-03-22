@@ -1,5 +1,5 @@
 
-import { nvda, WindowsKeyCodes, WindowsModifiers } from "@guidepup/guidepup";
+import { nvda, WindowsKeyCodes, WindowsModifiers, windowsActivate } from "@guidepup/guidepup";
 
 const MAX_APPLICATION_SWITCH_RETRY_COUNT = 10;
 
@@ -18,6 +18,7 @@ const focusBrowser = async ({
   nvdaInstance,
 }) => {
   console.log('focusBrowser', applicationName);
+  await windowsActivate('chromium.exe', applicationName);
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   let windowTitle = await nvdaInstance.lastSpokenPhrase();
 
@@ -57,8 +58,8 @@ const focusBrowser = async ({
  */
 export const navigateToWebContent = async (nvdaInstance, page, applicationName) => {
   await page.goto("about:blank", { waitUntil: "load" });
-  await nvdaInstance.start();
   await page.bringToFront();
+  await nvdaInstance.start();
   await nvdaInstance.perform(nvdaInstance.keyboardCommands.reportTitle);
   console.log('AAA await nvdaInstance.lastSpokenPhrase()', await nvdaInstance.lastSpokenPhrase());
   // Make sure NVDA is not in focus mode.

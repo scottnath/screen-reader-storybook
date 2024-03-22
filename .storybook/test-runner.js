@@ -27,7 +27,6 @@ const config = {
     }
   },
   async postVisit(page, story) {
-    console.log('postVisit');
     if (!READER) {
       await checkA11y(page, "#storybook-root", {
         detailedReport: true,
@@ -36,6 +35,7 @@ const config = {
       return;
     }
     const applicationName = page.context().browser().browserType().name();
+    console.log('postVisit', applicationName);
     const appMapName = applicationNameMap[applicationName];
     expect(appMapName).toBeDefined();
 
