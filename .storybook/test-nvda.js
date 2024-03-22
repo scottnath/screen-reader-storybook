@@ -80,8 +80,8 @@ export const nvdaTest = async (page, appMapName, MAX_LOOP = 10, pageurl) => {
   await page.goto(pageurl, { waitUntil: "load" });
   await waitForPageReady(page);
   await page.bringToFront();
-  await page.locator("body").waitFor();
-  await page.locator("body").focus();
+  await page.locator("#storybook-root").waitFor();
+  await page.locator("#storybook-root").focus();
   await navigateToWebContent(nvda, page, appMapName);
   console.log('nvdaTest', 'AFTER navigateToWebContent');
   let nextCount = 0;
