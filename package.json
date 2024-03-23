@@ -15,7 +15,7 @@
     "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-storybook\"",
     "test-voiceover:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-voiceover\"",
     "test-voiceover": "READER=voiceover test-storybook --maxWorkers 1 --verbose --browsers webkit",
-    "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-coverage\"",
+    "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npm run test-coverage\"",
     "test-coverage": "test-storybook --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
   },
   "devDependencies": {
