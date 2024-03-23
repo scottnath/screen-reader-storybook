@@ -22,11 +22,7 @@ jobs:
       - name: Guidepup Setup
         uses: guidepup/setup-action@0.15.3
       - name: Install dependencies
-        run: |
-          corepack enable
-          yarn set version stable
-          yarn --version
-          yarn install --frozen-lockfile
+        run: npm ci
       - name: Build Storybook
         run: npm run build-storybook
       - name: Install Playwright
@@ -36,6 +32,6 @@ jobs:
           READER: voiceover
         uses: Wandalen/wretry.action@master
         with:
-          command: yarn test-voiceover:ci
+          command: npm run test-voiceover:ci
           attempt_limit: 2
           attempt_delay: 2000

@@ -11,10 +11,10 @@
     "storybook": "storybook dev -p 6006",
     "build-storybook": "storybook build",
     "test-storybook": " HEADLESS=true test-storybook --verbose",
-    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-storybook\"",
-    "test-voiceover:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-voiceover\"",
+    "test-storybook:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-storybook\"",
+    "test-voiceover:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-voiceover\"",
     "test-voiceover": "READER=voiceover test-storybook --maxWorkers 1 --verbose --browsers webkit",
-    "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && yarn test-coverage\"",
+    "test-coverage:ci": "concurrently -k -s first -n \"SB,TEST\" -c \"magenta,blue\" \"npx serve storybook-static -l 6006\" \"wait-on tcp:6006 && npx test-coverage\"",
     "test-coverage": "test-storybook --coverage --coverageDirectory .storybook && nyc report --reporter=text -t .storybook"
   },
   "devDependencies": {
@@ -127,6 +127,5 @@
     "cliui": "^8.0.0",
     "wrap-ansi": "^7.0.0",
     "yargs": "^17.0.1"
-  },
-  "packageManager": "yarn@4.1.1"
+  }
 }

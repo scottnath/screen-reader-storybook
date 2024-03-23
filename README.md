@@ -1,6 +1,6 @@
 # screen-reader-storybook
 
-Testing combining windows/mac screen readers with a Storybook environment
+Testing combining mac screen readers with a Storybook environment
 
 ## Original source code from Storybook sandbox
 
@@ -38,11 +38,11 @@ This repository has [a v0.0.1 tagged release which has `@storybook/test-runner` 
     npx test-storybook    
     ```
 
-Did the tests run on all your stories? Great! **You are now set up similar to the v0.0.1 tagged release.** The next steps will detail what is in the v0.1.0 tagged release, which has the full NVDA and Voiceover functionality.
+Did the tests run on all your stories? Great! **You are now set up similar to the v0.0.1 tagged release.** The next steps will detail what is in the v0.1.0 tagged release, which has the full Voiceover functionality.
 
 ### Step 2: Run Guidepup's setup script
 
-This command sets up Guidepup and NVDA/Voiceover to work together. See details about using this script at [@guidepup/setup][gpup-setup].
+This command sets up Guidepup and Voiceover to work together. See details about using this script at [@guidepup/setup][gpup-setup].
 
 ```javascript
 npx @guidepup/setup
@@ -58,7 +58,7 @@ npm i @guidepup/guidepup @guidepup/playwright -D
 
 Copypasta the [final version of `test-runner-jest.config.js` from the v0.1.0 tagged release][repo-merged-jest-config] or follow the steps below to create in your repo.
 
-The _primary_ reason we need to add this file is to allow `launchOptions.headless` to be `false`. This allows local usage of Voiceover. (and maybe NVDA, your mileage may vary)
+The _primary_ reason we need to add this file is to allow `launchOptions.headless` to be `false`. This allows local usage of Voiceover.
 
 1. Auto-generate a `test-runner-jest.config.js` file at the root of your repo using the [Test Runner's eject command][sb-test-runner-eject].
     ```javascript
